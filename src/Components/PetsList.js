@@ -1,19 +1,39 @@
 import { useState } from "react";
 import pets from "../petsData";
 import PetItem from "./PetItem";
+import SearchBar from "./SearchBar";
 
 function PetsList() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
-  const petList = pets.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase()) && pet.type == type).map((pet) => <PetItem pet={pet} key={pet.id} />);
+  
+ // const petList = pets.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase())).map((pet) => <PetItem pet={pet} key={pet.id} />);
+  const petList = pets.filter(pet => {
+    if(query == ""){
+      return pet;
+    }else if (pet.name.toLowerCase().includes(query.toLowerCase())){
+      return pet;
+    }
+  }).filter(pet => {
+    if(type == ""){
+      return pet;
+    }else if(pet.type == type){
+      return pet;
+    }
+  }).map((pet) => <PetItem pet={pet} key={pet.id} />);
 
- 
+
+  
   const setQueryFunction = (e) => {
     setQuery(e.target.value)
+   
+   // petList = pets.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase()));
   }
+ 
 
   const setTypeFunction = (e) => {
     setType(e.target.value)
+   // petList = pets.filter(pet => pet.type == type)
   }
 
 
@@ -28,16 +48,7 @@ function PetsList() {
               <h1 className="mb-25 wow fadeInUp" data-wow-delay=".2s">
                 Fur-ends
               </h1>
-              <div className="input-group rounded">
-                <input
-                  type="search"
-                  className="form-control rounded"
-                  placeholder="Search"
-                  aria-label="Search"
-                  aria-describedby="search-addon"
-                  onChange={setQueryFunction}
-                />
-              </div>
+              <SearchBar setQuery={setQueryFunction}/>
               <br />
               Type:
               <select className="form-select" onChange={setTypeFunction}>
