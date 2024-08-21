@@ -2,12 +2,12 @@ import { useState } from "react";
 import pets from "../petsData";
 import PetItem from "./PetItem";
 import SearchBar from "./SearchBar";
+import SelectorButton from "./SelectorButton";
 
 function PetsList() {
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
   
- // const petList = pets.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase())).map((pet) => <PetItem pet={pet} key={pet.id} />);
   const petList = pets.filter(pet => {
     if(query == ""){
       return pet;
@@ -25,9 +25,7 @@ function PetsList() {
 
   
   const setQueryFunction = (e) => {
-    setQuery(e.target.value)
-   
-   // petList = pets.filter(pet => pet.name.toLowerCase().includes(query.toLowerCase()));
+    setQuery(e.target.value)   
   }
  
 
@@ -51,14 +49,7 @@ function PetsList() {
               <SearchBar setQuery={setQueryFunction}/>
               <br />
               Type:
-              <select className="form-select" onChange={setTypeFunction}>
-                <option value="" selected>
-                  All
-                </option>
-                <option value="Cat">Cat</option>
-                <option value="Dog">Dog</option>
-                <option value="Rabbit">Rabbit</option>
-              </select>
+              <SelectorButton setType={setTypeFunction}/>
             </div>
           </div>
         </div>
